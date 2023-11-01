@@ -1,0 +1,214 @@
+:root {
+    --bg: rgb(20, 20, 20);
+    --card-bg: rgb(23, 23, 23);
+    --card-border-radius: 10px;
+    --card-title: #f7f8f8;
+    --brightness: 400%;
+    --color-white: #ffffff;
+    --card-before: rgba(255, 255, 255, 0.06);
+    --card-before01: rgba(255, 255, 255, 0.1);
+    --card-before03: rgba(255, 255, 255, 0.3);
+    --box-shadow: rgba(0, 0, 0, 0.12);
+}
+
+html[color-scheme="light"] {
+    --bg: #ffffff;
+    --card-bg: rgb(227, 227, 227);
+    --card-title: #131313;
+    --brightness: 0;
+    --color-white: #000000;
+    --card-before: rgba(0, 0, 0, 0.06);
+    --card-before01: rgba(0, 0, 0, 0.1);
+    --card-before03: rgba(0, 0, 0, 0.3);
+    --box-shadow: rgba(227, 227, 227, 0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: 0.3s color ease;
+    transition: 0.3s background-color ease;
+}
+
+body {
+    background-color: var(--bg);
+    font-family: 'Inter', sans-serif;
+}
+
+section {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 960px;
+    width: 100%;
+    max-height: 530px;
+    height: 100%;
+    gap: 8px;
+}
+
+.card {
+    background-color: var(--card-before01);
+    cursor: pointer;
+    border-radius: var(--card-border-radius);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 1px;
+    box-shadow: var(--box-shadow) 0px 12px 12px;
+}
+
+.card:before,
+.card > .card-border {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 500ms;
+}
+
+.cards:hover .card-border,
+.card:hover:before,
+.card-letters:hover,
+.cards-big:hover .letters-logo {
+    opacity: 1;
+}
+
+.card:before {
+    background: radial-gradient(
+        800px circle at var(--mouse-x) var(--mouse-y), 
+        var(--card-before), 
+        transparent 40%);
+    z-index: 3;
+    pointer-events: none;
+}
+
+.card > .card-border {
+    background: radial-gradient(
+        400px circle at var(--mouse-x) var(--mouse-y), 
+        var(--card-before03), 
+        transparent 40%);
+    z-index: 1;
+}
+
+.card>.card-content,
+.card-letters {
+    height: 100%;
+    width: 100%;
+    background-color: var(--card-bg);
+    border-radius: calc(var(--card-border-radius) - calc(var(--card-border-radius) / 10));
+    z-index: 2;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-icon {
+    filter: grayscale(1) brightness(var(--brightness));
+    width: 16px;
+    height: 16px;
+    margin-top: 4px;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--card-title);
+}
+
+.card-descr {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #8a8f98;
+}
+
+.card-right {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.card-bottom {
+    display: flex;
+    gap: 12px;
+    padding: 0 24px 24px;
+    position: absolute;
+    bottom: 0;
+}
+
+.card-img {
+    width: 110%;
+    position: absolute;
+    top: 0;
+    left: -5%;
+}
+
+.card-letters {
+    word-break: break-all;
+    color: var(--color-white);
+    max-width: 960px;
+    opacity: 0;
+    transition: all 500ms;
+    max-height: 530px;
+    overflow: hidden;
+    background: radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), var(--color-white), transparent 60%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1.2;
+}
+
+.cards-big {
+    grid-template-columns: 1fr;
+}
+
+.letters-logo {
+    position: absolute;
+    top: var(--mouse-y);
+    left: var(--mouse-x);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 500ms;
+}
+
+.cards-big .card {
+    cursor: grab;
+}
+
+.scheme-changer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+}
+
+.scheme-toggle {
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--card-before03);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scheme-toggle path {
+    fill: var(--color-white);
+}
